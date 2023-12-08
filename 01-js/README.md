@@ -1,3 +1,4 @@
+___
 ## JavaScript Assignments
 
 You are provided empty JavaScript files (or having function signatures) in this directory. 
@@ -17,6 +18,8 @@ Feel free to start doing these in any order you like.
 1. If you have Node.js locally, you should run these on your machine 
 2. If you don't, you can copy these over to repl.it and run it there. Tests wont be automated there so you will have to make use judgement to ensure if your code is correct
 
+___
+
 ## List of problems
 ### 1. Easy
 - [x] Anargam
@@ -33,6 +36,6 @@ Feel free to start doing these in any order you like.
 - [x] Time
 
 ### 3. Hard
-- [] Calculator
+- [x] Calculator
 
 - [] Todo list
