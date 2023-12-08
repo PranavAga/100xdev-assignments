@@ -13,8 +13,33 @@
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
 */
 
+function catIndex(cat,res){
+  index=-1
+
+  for(var i=0;i<res.length;i++){
+    if(res[i].category===cat){
+      index=i
+      break
+    }
+  }
+
+  return index
+}
+
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  res=[]
+  // categories=new Set()
+
+  for(let i=0;i<transactions.length;i++){
+    const catindex=catIndex(transactions[i].category,res)
+    if(catindex>-1){
+      res[catindex].totalSpent+=transactions[i].price
+    }
+    else{
+      res.push({'category':transactions[i].category,'totalSpent':transactions[i].price})
+    }
+  }
+  return res;
 }
 
 module.exports = calculateTotalSpentByCategory;
