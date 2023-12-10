@@ -6,13 +6,13 @@ This folder contains assignments related to asynchronous JavaScript.
 
 Recommended order below but feel free to make a mess in any order you like.
 1. Easy
-   1. [ ] Counter
-   2. [ ] Counter (no setInterval)
-   3. [ ] Read from a file
-   4. [ ] Write to a file
+   1. [x] Counter
+   2. [x] Counter (no setInterval)
+   3. [x] Read from a file
+   4. [x] Write to a file
 2. Medium
-   1. [ ] File cleaner
-   2. [ ] Clock
+   1. [x] File cleaner
+   2. [x] Clock
 3. Hard
    1. [ ] Promisify setTimeout
    2. [ ] Sleep completely
