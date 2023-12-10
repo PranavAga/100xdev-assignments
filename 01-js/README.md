@@ -38,4 +38,4 @@ ___
 ### 3. Hard
 - [x] Calculator
 
-- [] Todo list
+- [x] Todo list
