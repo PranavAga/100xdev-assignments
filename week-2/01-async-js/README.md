@@ -14,9 +14,9 @@ Recommended order below but feel free to make a mess in any order you like.
    1. [x] File cleaner
    2. [x] Clock
 3. Hard
-   1. [ ] Promisify setTimeout
-   2. [ ] Sleep completely
-   3. [ ] Promise all
+   1. [x] Promisify setTimeout
+   2. [x] Sleep completely
+   3. [x] Promise all
    4. [ ] Promise chain
 
 #### Development Setup
