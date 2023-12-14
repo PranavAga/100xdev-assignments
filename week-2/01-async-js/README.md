@@ -17,7 +17,7 @@ Recommended order below but feel free to make a mess in any order you like.
    1. [x] Promisify setTimeout
    2. [x] Sleep completely
    3. [x] Promise all
-   4. [ ] Promise chain
+   4. [x] Promise chain
 
 #### Development Setup
 1. If you have Node.js locally, you should run these on your machine
