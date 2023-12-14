@@ -17,5 +17,85 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+function getFilesInDirectory(directoryPath) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(files);
+      }
+    });
+  });
+}
+
+function readFile(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      try {
+        resolve(data);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  });
+}
+
+const dirPath='./files'
+
+app.get('/files',async(req,res)=>{
+  try{
+    const files=await getFilesInDirectory(dirPath)
+
+    res.status(200).send(files)
+  }
+  catch(err){
+    res.status(500);
+    res.send({'error':err })
+  }
+  
+})
+
+app.get('/file/:filename',async(req,res)=>{
+  try{
+    const filepath=path.join(dirPath,req.params.filename);
+    console.log(filepath);
+    const content=await readFile(filepath)
+    console.log(content)
+    res.status(200).send(content);
+  }
+  catch(err){
+    if(err.code=='ENOENT'){
+      res.status(404);
+      res.send('File not found')
+    }
+    else{
+      res.status(500);
+      res.send({'error':err })
+    }
+  }
+  
+})
+
+app.get('*', (req, res)=>{
+  res.status(404).send('Route not found');
+});
+app.post('*', (req, res)=>{
+  res.status(404).send('Route not found');
+});
+app.put('*', (req, res)=>{
+  res.status(404).send('Route not found');
+});
+app.delete('*', (req, res)=>{
+  res.status(404).send('Route not found');
+});
+
+// app.listen(3000,()=>{
+//   console.log("listensing to port",3000)
+// });
 
 module.exports = app;
