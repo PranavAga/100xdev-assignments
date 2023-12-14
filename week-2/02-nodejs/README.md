@@ -5,8 +5,8 @@ You are provided empty JavaScript files (or having function signatures) in this 
 
 ### Assignments
 Recommended order of attempting the assignments.
-1. Todo List App
-2. File Server
+1. [ ] Todo List App
+2. [ ] File Server
 
 #### Important Notes
 1. If you are unable to understand the request/response of any assignment file or whatever the way it is being tested, you can take a look at its respective test file present in `tests/` directory.
