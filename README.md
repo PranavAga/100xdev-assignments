@@ -6,3 +6,4 @@ Here, I complete and submit the assignments in the cohort
 -   Week 2: week-2
 -   Week 3: week-3
 -   Week 5: week-5
+-   Week 6: week-6
