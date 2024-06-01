@@ -8,3 +8,4 @@ Here, I complete and submit the assignments in the cohort
 -   Week 5: week-5
 -   Week 6: week-6
 -   Week 7: week-7
+-   Week 10: week-10
