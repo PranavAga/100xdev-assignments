@@ -1,12 +1,18 @@
-import prisma from './prisma'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
-import { Prisma } from '@prisma/client/edge'
+import { Prisma, PrismaClient } from '@prisma/client/edge'
 import { sign } from 'hono/jwt'
 import { env } from 'hono/adapter'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
-const userRouter = new Hono()
+type Bindings = {
+    PRIVATE_KEY: string,
+    DATABASE_URL:string,
+    DIRECT_DATABASE_URL:string
+}
+
+const userRouter = new Hono<{Bindings:Bindings }>();
 
 const signupSchema = z.object({
     username: z.string(),
@@ -28,13 +34,16 @@ userRouter.post('/signup', zValidator('json',signupSchema,(result, c) => {
     const body = c.req.valid("json");
 
     try {
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL
+        }).$extends(withAccelerate())
+
         await prisma.user.create({
             data:body
         })
 
         return c.text('Singedup!')
     } catch (e:any) {
-        console.log("====ERROR====\n",e)
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           if (e.code === 'P2002' && e.meta?.target){
             return c.text(e.meta.target+' already exisits',400)
@@ -53,6 +62,10 @@ userRouter.post('/signin', zValidator('json',signinSchema,(result, c) => {
     }
 }), async(c) => {
     
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+
     const body = c.req.valid("json");
 
     const user = await prisma.user.findUnique({
@@ -61,6 +74,7 @@ userRouter.post('/signin', zValidator('json',signinSchema,(result, c) => {
             password:body.password
         },
         select:{
+            id:true,
             username:true,
             password:true
         }
@@ -70,8 +84,7 @@ userRouter.post('/signin', zValidator('json',signinSchema,(result, c) => {
         return c.text('Invalid credentials',400);
     }
 
-    const {PRIVATE_KEY} = env<{ PRIVATE_KEY: string }>(c)
-    console.log(PRIVATE_KEY)
+    const PRIVATE_KEY = c.env.PRIVATE_KEY
     const token = await sign(user,PRIVATE_KEY);
 
     return c.json({"token":token});
