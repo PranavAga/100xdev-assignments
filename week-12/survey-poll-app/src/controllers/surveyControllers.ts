@@ -24,6 +24,10 @@ type SurveyCreate = {
     questions: QuestionCreate[];
 }
 
+type SurveyId ={
+    id: string
+}
+
 export const createSurvey = async (req:Request, res:Response)=>{
     try{
         const {id, title, description, questions}: SurveyCreate = req.body;
@@ -94,6 +98,122 @@ export const fetchAllSurveys = async (req:Request, res:Response)=>{
         return res.json(surveys).status(Status.ok);
     }
     catch(e){
+        if(e instanceof TypeError)
+            return res.status(Status.error_badrequest).send('Invalid format: '+e.message);
+
+        console.log(e)
+        return res.status(Status.error_server).send('Server error');
+    }
+}
+
+export const fetchSurveyById = async (req:Request, res:Response)=>{
+    try{
+        if(!(req.params.id && typeof req.params.id === 'string')){
+            throw new TypeError("Invalid type for 'id'")
+        }
+
+        const id = Number(req.params.id);
+        if (!id || isNaN(id)) {
+            throw new TypeError("Invalid type for 'id'");
+        }
+        
+        const survey = await Survey.findUnique({
+            where:{
+                id:id
+            },
+
+            select:{
+                id:true,
+                title:true,
+                description:true,
+                questions:{
+                    select:{
+                        description:true,
+                        options:true
+                    }
+                }
+            }
+        })
+        
+        return res.json(survey).status(Status.ok);
+    }
+    catch(e){
+        if(e instanceof TypeError)
+            return res.status(Status.error_badrequest).send('Invalid format: '+e.message);
+
+        console.log(e)
+        return res.status(Status.error_server).send('Server error');
+    }
+}
+
+export const updateSurveyById = async (req:Request, res:Response)=>{
+    try{
+        if(!(req.params.id && typeof req.params.id === 'string')){
+            throw new TypeError("Invalid type for 'id'")
+        }
+
+        const id = Number(req.params.id);
+        if (!id || isNaN(id)) {
+            throw new TypeError("Invalid type for 'id'");
+        }
+
+        const {description} :{description:string} = req.body
+        
+        const survey = await Survey.update({
+            where:{
+                id:id
+            },
+            data:{
+                description: description
+            },
+            select:{
+                id:true,
+                title:true,
+                description:true,
+                // questions:{
+                //     select:{
+                //         description:true,
+                //         options:true
+                //     }
+                // }
+            }
+        })
+        
+        return res.json(survey).status(Status.ok);
+    }
+    catch(e){
+        if(e instanceof TypeError)
+            return res.status(Status.error_badrequest).send('Invalid format: '+e.message);
+
+        console.log(e)
+        return res.status(Status.error_server).send('Server error');
+    }
+}
+
+export const deleteSurveyById = async (req:Request, res:Response)=>{
+    try{
+        if(!(req.params.id && typeof req.params.id === 'string')){
+            throw new TypeError("Invalid type for 'id'")
+        }
+
+        const id = Number(req.params.id);
+        if (!id || isNaN(id)) {
+            throw new TypeError("Invalid type for 'id'");
+        }
+        
+        const survey = await Survey.delete({
+            where:{
+                id:id
+            }
+        })
+        
+        return res.json('deleted survey: '+id).status(Status.ok);
+    }
+    catch(e){
+        if(e instanceof TypeError)
+            return res.status(Status.error_badrequest).send('Invalid format: '+e.message);
+
+        console.log(e)
         return res.status(Status.error_server).send('Server error');
     }
 }

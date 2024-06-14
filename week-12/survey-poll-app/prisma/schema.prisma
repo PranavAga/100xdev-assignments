@@ -27,7 +27,7 @@ model Question{
   description String
 
   surveyId Int
-  survey Survey @relation(fields: [surveyId],references: [id]) 
+  survey Survey @relation(fields: [surveyId],references: [id], onUpdate: Cascade, onDelete: Cascade) 
 
   options QuestionOption[]
 }
@@ -37,7 +37,7 @@ model QuestionOption{
   description String
 
   questionId Int
-  question Question @relation(fields: [questionId], references: [id])
+  question Question @relation(fields: [questionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   submission SurveySubmission[]
 }
@@ -46,9 +46,9 @@ model SurveySubmission{
   id Int @id @default(autoincrement())
   userId Int
   
-  surveyId Int
-  survey Survey @relation(fields: [surveyId], references: [id])
+  surveyId Int?
+  survey Survey? @relation(fields: [surveyId], references: [id], onUpdate: Cascade, onDelete: SetNull)
 
-  option QuestionOption @relation(fields: [optionId], references: [id])
-  optionId Int 
+  option QuestionOption? @relation(fields: [optionId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  optionId Int? 
 }
