@@ -9,3 +9,5 @@ Here, I complete and submit the assignments in the cohort
 -   Week 6: week-6
 -   Week 7: week-7
 -   Week 10: week-10
+-   Week 12: week-12
+-   Week 14: week-14
